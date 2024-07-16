@@ -551,6 +551,10 @@ class CMTrainLoop(TrainLoop):
         ema_scale_fn,
         **kwargs,
     ):
+        # # DEBUG
+        # if dist.get_rank() == 0:
+        #     print('Initializing CMTrainLoop...')
+        #     breakpoint()
         super().__init__(**kwargs)
         self.training_mode = self.args.training_mode
         self.ema_scale_fn = ema_scale_fn
@@ -694,6 +698,10 @@ class CMTrainLoop(TrainLoop):
             tf.reset_default_graph()
             if self.args.gpu_usage:
                 self.print_gpu_usage('After emptying cache')
+        # # DEBUG
+        # if dist.get_rank() == 0:
+        #     print('Finished initializing CMTrainLoop.')
+        #     # breakpoint()
 
 
     def print_gpu_usage(self, prefix=''):
@@ -761,6 +769,9 @@ class CMTrainLoop(TrainLoop):
         dist_util.sync_params(self.teacher_model.buffers())
 
     def run_loop(self):
+        # DEBUG
+        print(f'Enter run_loop on device {dist.get_rank()}')
+        # breakpoint()
         if self.args.gpu_usage:
             self.print_gpu_usage('Before training')
         saved = False
@@ -787,6 +798,12 @@ class CMTrainLoop(TrainLoop):
                     if self.step == self.initial_step + 10 and self.teacher_model != None:
                         self.sampling(model=self.teacher_model, sampler='heun', ctm=False, teacher=True)
             self.run_step(batch, cond)
+
+            # # DEBUG
+            # print(f'Right after run_step() on device {dist.get_rank()}')
+            # breakpoint()
+
+
             if self.args.gpu_usage:
                 self.print_gpu_usage('After one step training')
             if self.args.large_log:
@@ -905,6 +922,10 @@ class CMTrainLoop(TrainLoop):
                     break
                 print(f"0.999 ema param after overriding (should be same to the target parameter): ",
                       self.ema_params[0][1].reshape(-1)[:3])
+            
+            # # DEBUG
+            # print(f'Finish one run_step() on device {dist.get_rank()}')
+            # breakpoint()
 
         # Save the last checkpoint if it wasn't already saved.
         if not saved:

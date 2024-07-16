@@ -55,7 +55,14 @@ def main():
             imgs.append(img)
         except:
             pass
+    
+    breakpoint()
+
     imgs = np.concatenate(imgs, axis=0)
+
+    breakpoint()
+
+
     os.makedirs(os.path.join(args.sample_batch, 'single_npz'), exist_ok=True)
     np.savez(os.path.join(os.path.join(args.sample_batch, 'single_npz'), f'data'),
              imgs)  # , labels)
@@ -166,6 +173,10 @@ class Evaluator:
 
     def read_activations(self, npz_path: str) -> Tuple[np.ndarray, np.ndarray]:
         batches = np.load(npz_path)  # .reshape(self.batch_size)
+
+        breakpoint()
+
+
         if npz_path.split('.')[-1] == 'npz':
             batches = batches['arr_0']
         batches = batches[:50000]

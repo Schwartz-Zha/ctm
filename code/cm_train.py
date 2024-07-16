@@ -83,9 +83,12 @@ def main():
         logger.log(f"loading the teacher model from {args.teacher_model_path}")
         teacher_model, _ = create_model_and_diffusion(args, teacher=True)
         if not args.edm_nn_ncsn and not args.edm_nn_ddpm:
-            teacher_model.load_state_dict(
-                dist_util.load_state_dict(args.teacher_model_path, map_location=dist_util.dev()),
-            )
+            if 'pkl' in args.teacher_model_path:
+                pass
+            else:    
+                teacher_model.load_state_dict(
+                    dist_util.load_state_dict(args.teacher_model_path, map_location=dist_util.dev()),
+                )
         teacher_model.to(dist_util.dev())
         teacher_model.eval()
 
@@ -96,17 +99,39 @@ def main():
                     dst_[idx] = ''.join(name.split('_train'))
             return '.'.join(dst_)
 
-        for dst_name, dst in model.named_parameters():
-            for src_name, src in teacher_model.named_parameters():
-                if dst_name in ['.'.join(src_name.split('.')[1:]), src_name]:
-                    dst.data.copy_(src.data)
-                    if args.linear_probing:
-                        dst.requires_grad = False
-                    break
-                if args.linear_probing:
-                    if filter_(dst_name) in ['.'.join(src_name.split('.')[1:]), src_name]:
+        # DEBUG
+        # print(f'args.data_name = {args.data_name}')
+        # print(f'args.linear_probing = {args.linear_probing}')
+        # print(f'model = {model}')
+        # print(f'teacher_model = {teacher_model}')
+        if args.data_name == 'cifar10':
+            for dst_name, dst in model.model.named_parameters():
+                for src_name, src in teacher_model.named_parameters():
+                    if dst_name in ['.'.join(src_name.split('.')[1:]), src_name]:
+                        # # DEBUG
+                        # print(f'src_name = {src_name} == dst_name = {dst_name}' )
                         dst.data.copy_(src.data)
+                        if args.linear_probing:
+                            dst.requires_grad = False
                         break
+                    if args.linear_probing:
+                        if filter_(dst_name) in ['.'.join(src_name.split('.')[1:]), src_name]:
+                            dst.data.copy_(src.data)
+                            break
+        else:
+            for dst_name, dst in model.named_parameters():
+                for src_name, src in teacher_model.named_parameters():
+                    if dst_name in ['.'.join(src_name.split('.')[1:]), src_name]:
+                        # # DEBUG
+                        # print(f'src_name = {src_name} == dst_name = {dst_name}' )
+                        dst.data.copy_(src.data)
+                        if args.linear_probing:
+                            dst.requires_grad = False
+                        break
+                    if args.linear_probing:
+                        if filter_(dst_name) in ['.'.join(src_name.split('.')[1:]), src_name]:
+                            dst.data.copy_(src.data)
+                            break
         teacher_model.requires_grad_(False)
         if args.edm_nn_ncsn:
             model.model.map_noise.freqs = teacher_model.model.model.map_noise.freqs

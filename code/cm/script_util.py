@@ -139,8 +139,8 @@ def ctm_eval_defaults(data_name):
 
 def cm_train_defaults(data_name):
     return dict(
-        #teacher_model_path="/home/dongjun/EighthArticleExperimentalResults/CIFAR10/author_ckpt/edm-cifar10-32x32-uncond-vp.pkl" if data_name == 'cifar10' else "",
-        teacher_model_path="/home/acf15618av/EighthArticleExperimentalResults/CIFAR10/author_ckpt/edm-cifar10-32x32-uncond-vp.pkl" if data_name == 'cifar10' else "",
+        #teacher_model_path="/home/dongjun/EighthArticleExperimentalResuls/CIFAR10/author_ckpt/edm-cifar10-32x32-uncond-vp.pkl" if data_name == 'cifar10' else "",
+        teacher_model_path="./ckpts-cifar10/edm-cifar10-32x32-uncond-vp.pkl" if data_name == 'cifar10' else "",
         teacher_dropout=0.0 if data_name == 'cifar10' else 0.1,
         training_mode="ctm",
         target_ema_mode="fixed",
