@@ -23,7 +23,8 @@ MODEL_FLAGS="--data_name=cifar10 --class_cond=True --eval_interval=1000 --save_i
 
 # CUDA_VISIBLE_DEVICES=0 mpiexec -n 1 python ./code/image_sample.py $MODEL_FLAGS --class_cond=True --num_classes=1000 --out_dir ./ctm-sample-paths/ctm_bs_1440/ --model_path=./ctm-runs/ctm_bs_1440/ema_0.999_006000.pt --training_mode=ctm --class_cond=True --eval_num_samples=6400 --batch_size=800 --device_id=0 --stochastic_seed=True --save_format=npz --ind_1=36 --ind_2=20 --use_MPI=True --sampler=exact --sampling_steps=1
 
-CUDA_VISIBLE_DEVICES=0 mpiexec -n 1 python ./code/image_sample.py $MODEL_FLAGS --class_cond=True --num_classes=10 --out_dir ./ctm-sample-paths/cifar_ctm/ --model_path=./ctm-runs/cifar10_ctm_bs_1440_old/ema_0.999_002000.pt --training_mode=ctm --class_cond=True --eval_num_samples=6400 --batch_size=800 --device_id=0 --stochastic_seed=True --save_format=npz --ind_1=36 --ind_2=20 --use_MPI=True --sampler=exact --sampling_steps=1
+CUDA_VISIBLE_DEVICES=0 mpiexec -n 1 python ./code/image_sample.py $MODEL_FLAGS --class_cond=True --num_classes=10 --out_dir ./ctm-sample-paths/cifar10_CTMDSM_condckpt_006000/ --model_path=./ctm-runs/cifar10_CTMDSM_cond/ema_0.999_006000.pt --training_mode=ctm --class_cond=True --eval_num_samples=6400 --batch_size=800 --device_id=0 --stochastic_seed=True --save_format=npz --ind_1=36 --ind_2=20 --use_MPI=True --sampler=exact --sampling_steps=1
+# CUDA_VISIBLE_DEVICES=0 mpiexec -n 1 python ./code/image_sample.py $MODEL_FLAGS --class_cond=True --num_classes=10 --out_dir ./ctm-sample-paths/cifar10_CTMDSM_uncondckpt_006000/ --model_path=./ctm-runs/cifar10_CTMDSM/ema_0.999_003000.pt --training_mode=ctm --class_cond=True --eval_num_samples=6400 --batch_size=800 --device_id=0 --stochastic_seed=True --save_format=npz --ind_1=36 --ind_2=20 --use_MPI=True --sampler=exact --sampling_steps=1
 
 
 # * This is an example of sampling command.
@@ -33,3 +34,9 @@ CUDA_VISIBLE_DEVICES=0 mpiexec -n 1 python ./code/image_sample.py $MODEL_FLAGS -
 #   - To obtain EDM samples, you put --training_mode=edm --sampler=heun --sampling_steps=40
 #   - To obtain CTM samples (NFE n), you put --training_mode=ctm --sampler=exact --sampling_steps=n
 # - If stochastic_seed=False, then you can generate samples with same seeds.
+
+
+# CTM cifar10
+# 2000 FID: 228.79327590896918 
+# 4000 FID: 207.66139889651146
+# 6000 FID: 185.5214215230829

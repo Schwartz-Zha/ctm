@@ -65,29 +65,30 @@ def main():
 
 
     print("computing reference batch activations...")
-    ref_acts = evaluator.read_activations(args.ref_batch)
+    ref_acts, _ = evaluator.read_activations(args.ref_batch)
     print("computing/reading reference batch statistics...")
-    ref_stats, ref_stats_spatial = evaluator.read_statistics(args.ref_batch, ref_acts)
+    ref_stats = evaluator.read_statistics(args.ref_batch, ref_acts)
 
     print("computing sample batch activations...")
     #sample_acts = evaluator.read_activations(args.sample_batch)
-    sample_acts = evaluator.read_activations(
+    sample_acts, _ = evaluator.read_activations(
         os.path.join(os.path.join(args.sample_batch, 'single_npz'), f'data.npz'))
     print("computing/reading sample batch statistics...")
-    sample_stats, sample_stats_spatial = evaluator.read_statistics(
+    sample_stats = evaluator.read_statistics(
         os.path.join(os.path.join(args.sample_batch, 'single_npz'), f'data.npz'), sample_acts
     )
+
     shutil.rmtree(os.path.join(args.sample_batch, 'single_npz'))
     print("number of samples: ", sample_acts[0].shape)
 
     print("Computing evaluations...")
     print("sample dir: ", args.sample_batch)
-    print("Inception Score:", evaluator.compute_inception_score(sample_acts[0]))
+    # print("Inception Score:", evaluator.compute_inception_score(sample_acts[0]))
     print("FID:", sample_stats.frechet_distance(ref_stats))
-    print("sFID:", sample_stats_spatial.frechet_distance(ref_stats_spatial))
-    prec, recall = evaluator.compute_prec_recall(ref_acts[0], sample_acts[0])
-    print("Precision:", prec)
-    print("Recall:", recall)
+    # print("sFID:", sample_stats_spatial.frechet_distance(ref_stats_spatial))
+    # prec, recall = evaluator.compute_prec_recall(ref_acts[0], sample_acts[0])
+    # print("Precision:", prec)
+    # print("Recall:", recall)
 
 
 class InvalidFIDException(Exception):
@@ -205,14 +206,12 @@ class Evaluator:
         )
 
     def read_statistics(
-        self, npz_path: str, activations: Tuple[np.ndarray, np.ndarray]
-    ) -> Tuple[FIDStatistics, FIDStatistics]:
+        self, npz_path: str, activations: np.ndarray
+    ) -> FIDStatistics:
         obj = np.load(npz_path)
         if "mu" in list(obj.keys()):
-            return FIDStatistics(obj["mu"], obj["sigma"]), FIDStatistics(
-                obj["mu_s"], obj["sigma_s"]
-            )
-        return tuple(self.compute_statistics(x) for x in activations)
+            return FIDStatistics(obj["mu"], obj["sigma"])
+        return self.compute_statistics(activations)
 
     def compute_statistics(self, activations: np.ndarray) -> FIDStatistics:
         mu = np.mean(activations, axis=0)

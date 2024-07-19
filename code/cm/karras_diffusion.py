@@ -383,7 +383,7 @@ class KarrasDenoiser:
             if self.args.data_name.lower() == 'cifar10':
                 balance_weight = self.calculate_adaptive_weight(consistency_loss.mean(), denoising_loss.mean(),
                                                                 last_layer=model.module.model.dec[
-                                                                    '64x64_aux_conv'].weight)
+                                                                    '32x32_aux_conv'].weight)
             else:
                 balance_weight = self.calculate_adaptive_weight(consistency_loss.mean(), denoising_loss.mean(),
                                                                 last_layer=

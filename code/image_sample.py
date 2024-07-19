@@ -58,10 +58,22 @@ def main():
     else:
         classifier = None
 
+    # breakpoint()
+    # print(args.data_name)
+    # print(args.image_size) # 
+    # print(args.sigma_min) # 0.002
+    # print(args.sigma_max) # 80
+    # print(args.sigma_data) # 0.5
+    # print(args.teacher_model_path) # None
+    # print(args.linear_probing) # False 
+
     if args.training_mode == 'edm':
         model, diffusion = create_model_and_diffusion(args, teacher=True)
     else:
         model, diffusion = create_model_and_diffusion(args)
+
+    # breakpoint()
+    
     model.load_state_dict(
         dist_util.load_state_dict(args.model_path, map_location=dist_util.dev())
     )
@@ -123,6 +135,9 @@ def main():
     os.makedirs(out_dir, exist_ok=True)
     itr = 0
     eval_num_samples = 0
+
+    # breakpoint()
+
     while itr * args.batch_size < args.eval_num_samples:
         x_T = generator.randn(
             *(args.batch_size, args.in_channels, args.image_size, args.image_size),
@@ -235,8 +250,8 @@ def create_argparser():
         eval_seed=42,
         save_format='png',
         stochastic_seed=False,
-        #data_name='cifar10',
-        data_name='imagenet64',
+        data_name='cifar10',
+        # data_name='imagenet64',
         #schedule_sampler="lognormal",
         ind_1=0,
         ind_2=0,

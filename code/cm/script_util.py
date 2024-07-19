@@ -191,7 +191,7 @@ def train_defaults(data_name):
     res = dict(
         out_dir="",
         #data_dir="/home/dongjun/EighthArticleExperimentalResults/CIFAR10/train" if data_name == 'cifar10' else "",
-        data_dir="/home/acf15618av/dataset/CIFAR10/train" if data_name == 'cifar10' else "",
+        data_dir="/data/datasets/ctm-cifar10-32x32/" if data_name == 'cifar10' else "",
         schedule_sampler="uniform",
         lr=0.0004 if data_name == 'cifar10' else 0.000008,
         weight_decay=0.0,

@@ -27,6 +27,11 @@ import torch as th
 
 def main():
     args = create_argparser().parse_args()
+
+    # DEBUG
+    # breakpoint()
+
+
     if args.use_MPI:
         dist_util.setup_dist(args.device_id)
     else:
@@ -56,6 +61,12 @@ def main():
         type=args.type,
         deterministic=args.deterministic,
     )
+
+    # DEBUG
+    # breakpoint()
+    # # print(min(next(data)[0]))
+    # # print(max(next(data)[0]))
+    # breakpoint()
 
     logger.log("creating model and diffusion...")
     ema_scale_fn = create_ema_and_scales_fn(
@@ -173,8 +184,8 @@ def main():
     ).run_loop()
 
 def create_argparser():
-    #defaults = dict(data_name='cifar10')
-    defaults = dict(data_name='imagenet64')
+    defaults = dict(data_name='cifar10')
+    # defaults = dict(data_name='imagenet64')
     defaults.update(train_defaults(defaults['data_name']))
     defaults.update(model_and_diffusion_defaults(defaults['data_name']))
     defaults.update(cm_train_defaults(defaults['data_name']))
