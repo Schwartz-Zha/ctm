@@ -153,6 +153,7 @@ def main():
 
     # load the target model for distillation, if path specified.
 
+
     logger.log("creating the target model")
     target_model, _ = create_model_and_diffusion(args)
 

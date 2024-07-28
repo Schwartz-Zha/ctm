@@ -73,7 +73,9 @@ def main():
         model, diffusion = create_model_and_diffusion(args)
 
     # breakpoint()
-    
+    # model EDMPrecond_CTM.SongUNet
+
+
     model.load_state_dict(
         dist_util.load_state_dict(args.model_path, map_location=dist_util.dev())
     )
@@ -250,8 +252,8 @@ def create_argparser():
         eval_seed=42,
         save_format='png',
         stochastic_seed=False,
-        data_name='cifar10',
-        # data_name='imagenet64',
+        # data_name='cifar10',
+        data_name='imagenet64',
         #schedule_sampler="lognormal",
         ind_1=0,
         ind_2=0,

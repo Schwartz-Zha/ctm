@@ -11,7 +11,7 @@
 # cd /home/fp084243/EighthArticle/consistency_models-main_ver3
 export OMPI_COMM_WORLD_RANK=0
 export OMPI_COMM_WORLD_LOCAL_RANK=0
-export OMPI_COMM_WORLD_SIZE=8
+export OMPI_COMM_WORLD_SIZE=1
 
 # MODEL_FLAGS="--data_name=imagenet64 --class_cond=True --eval_interval=1000 --save_interval=1000 --num_classes=1000 --eval_batch=250 --eval_fid=True --eval_similarity=False --check_dm_performance=False --log_interval=100"
 
@@ -23,8 +23,18 @@ MODEL_FLAGS="--data_name=cifar10 --class_cond=True --eval_interval=1000 --save_i
 
 # CUDA_VISIBLE_DEVICES=0 mpiexec -n 1 python ./code/image_sample.py $MODEL_FLAGS --class_cond=True --num_classes=1000 --out_dir ./ctm-sample-paths/ctm_bs_1440/ --model_path=./ctm-runs/ctm_bs_1440/ema_0.999_006000.pt --training_mode=ctm --class_cond=True --eval_num_samples=6400 --batch_size=800 --device_id=0 --stochastic_seed=True --save_format=npz --ind_1=36 --ind_2=20 --use_MPI=True --sampler=exact --sampling_steps=1
 
-CUDA_VISIBLE_DEVICES=0 mpiexec -n 1 python ./code/image_sample.py $MODEL_FLAGS --class_cond=True --num_classes=10 --out_dir ./ctm-sample-paths/cifar10_CTMDSM_condckpt_006000/ --model_path=./ctm-runs/cifar10_CTMDSM_cond/ema_0.999_006000.pt --training_mode=ctm --class_cond=True --eval_num_samples=6400 --batch_size=800 --device_id=0 --stochastic_seed=True --save_format=npz --ind_1=36 --ind_2=20 --use_MPI=True --sampler=exact --sampling_steps=1
-# CUDA_VISIBLE_DEVICES=0 mpiexec -n 1 python ./code/image_sample.py $MODEL_FLAGS --class_cond=True --num_classes=10 --out_dir ./ctm-sample-paths/cifar10_CTMDSM_uncondckpt_006000/ --model_path=./ctm-runs/cifar10_CTMDSM/ema_0.999_003000.pt --training_mode=ctm --class_cond=True --eval_num_samples=6400 --batch_size=800 --device_id=0 --stochastic_seed=True --save_format=npz --ind_1=36 --ind_2=20 --use_MPI=True --sampler=exact --sampling_steps=1
+CUDA_VISIBLE_DEVICES=0 mpiexec -n 1 python ./code/image_sample.py $MODEL_FLAGS --class_cond=True --num_classes=10 --out_dir ./ctm-sample-paths/cifar10_CTMDSM_condckpt_050000/ --model_path=./ctm-runs/cifar10_CTMDSM_cond_nominibatch/ema_0.999_050000.pt --training_mode=ctm --class_cond=True --eval_num_samples=6400 --batch_size=800 --device_id=0 --stochastic_seed=True --save_format=npz --ind_1=36 --ind_2=20 --use_MPI=True --sampler=exact --sampling_steps=1
+
+CUDA_VISIBLE_DEVICES=0 mpiexec -n 1 python ./code/image_sample.py $MODEL_FLAGS --class_cond=True --num_classes=10 --out_dir ./ctm-sample-paths/cifar10_CTMDSM_condckpt_050000/ --model_path=./ctm-runs/cifar10_CTMDSM_cond_nominibatch/ema_0.999_050000.pt --training_mode=ctm --class_cond=True --eval_num_samples=6400 --batch_size=800 --device_id=0 --stochastic_seed=True --save_format=npz --ind_1=36 --ind_2=20 --use_MPI=True --sampler=exact --sampling_steps=2
+
+CUDA_VISIBLE_DEVICES=0 mpiexec -n 1 python ./code/image_sample.py $MODEL_FLAGS --class_cond=True --num_classes=10 --out_dir ./ctm-sample-paths/cifar10_CTMDSMGAN_condckpt_100000/ --model_path=./ctm-runs/cifar10_CTMDSMGAN_cond/ema_0.999_100000.pt --training_mode=ctm --class_cond=True --eval_num_samples=6400 --batch_size=800 --device_id=0 --stochastic_seed=True --save_format=npz --ind_1=36 --ind_2=20 --use_MPI=True --sampler=exact --sampling_steps=1
+
+CUDA_VISIBLE_DEVICES=0 mpiexec -n 1 python ./code/image_sample.py $MODEL_FLAGS --class_cond=True --num_classes=10 --out_dir ./ctm-sample-paths/cifar10_CTMDSMGAN_condckpt_100000/ --model_path=./ctm-runs/cifar10_CTMDSMGAN_cond/ema_0.999_100000.pt --training_mode=ctm --class_cond=True --eval_num_samples=6400 --batch_size=800 --device_id=0 --stochastic_seed=True --save_format=npz --ind_1=36 --ind_2=20 --use_MPI=True --sampler=exact --sampling_steps=2
+
+# 50K samples
+CUDA_VISIBLE_DEVICES=0 mpiexec -n 1 python ./code/image_sample.py $MODEL_FLAGS --class_cond=True --num_classes=10 --out_dir ./ctm-sample-paths/cifar10_CTMDSMGAN_condckpt_100000_50K/ --model_path=./ctm-runs/cifar10_CTMDSMGAN_cond/ema_0.999_100000.pt --training_mode=ctm --class_cond=True --eval_num_samples=50000 --batch_size=800 --device_id=0 --stochastic_seed=True --save_format=npz --ind_1=36 --ind_2=20 --use_MPI=True --sampler=exact --sampling_steps=1
+
+CUDA_VISIBLE_DEVICES=0 mpiexec -n 1 python ./code/image_sample.py $MODEL_FLAGS --class_cond=True --num_classes=10 --out_dir ./ctm-sample-paths/cifar10_CTMDSMGAN_condckpt_100000_50K/ --model_path=./ctm-runs/cifar10_CTMDSMGAN_cond/ema_0.999_100000.pt --training_mode=ctm --class_cond=True --eval_num_samples=50000 --batch_size=800 --device_id=0 --stochastic_seed=True --save_format=npz --ind_1=36 --ind_2=20 --use_MPI=True --sampler=exact --sampling_steps=2
 
 
 # * This is an example of sampling command.
@@ -36,7 +46,4 @@ CUDA_VISIBLE_DEVICES=0 mpiexec -n 1 python ./code/image_sample.py $MODEL_FLAGS -
 # - If stochastic_seed=False, then you can generate samples with same seeds.
 
 
-# CTM cifar10
-# 2000 FID: 228.79327590896918 
-# 4000 FID: 207.66139889651146
-# 6000 FID: 185.5214215230829
+# rlaunch --group=midjourney --cpu=8 --gpu=1 --memory=32000 -- bash

@@ -15,7 +15,7 @@ export OMPI_COMM_WORLD_SIZE=8
 
 # MODEL_FLAGS="--data_name=imagenet64 --class_cond=True --eval_interval=1000 --save_interval=1000 --num_classes=1000 --eval_batch=250 --eval_fid=True --eval_similarity=False --check_dm_performance=False --log_interval=100"
 
-MODEL_FLAGS="--data_name=imagenet64 --class_cond=True --eval_interval=1000 --save_interval=1000 --num_classes=1000 --eval_batch=250 --eval_fid=True --eval_similarity=True --check_dm_performance=False --log_interval=100"
+MODEL_FLAGS="--data_name=imagenet64 --image_size=64 --class_cond=True --eval_interval=1000 --save_interval=1000 --num_classes=1000 --eval_batch=250 --eval_fid=True --eval_similarity=True --check_dm_performance=False --log_interval=100"
 
 # MODEL_FLAGS="--data_name=imagenet64 --class_cond=True --eval_interval=1000 --save_interval=1000 --num_classes=1000 --eval_batch=250 --eval_fid=True --eval_similarity=False --check_dm_performance=True --log_interval=100"
 
@@ -23,8 +23,21 @@ MODEL_FLAGS="--data_name=imagenet64 --class_cond=True --eval_interval=1000 --sav
 
 # CUDA_VISIBLE_DEVICES=0 mpiexec -n 1 python ./code/image_sample.py $MODEL_FLAGS --class_cond=True --num_classes=1000 --out_dir ./ctm-sample-paths/ctm_bs_1440/ --model_path=./ctm-runs/ctm_bs_1440/ema_0.999_006000.pt --training_mode=ctm --class_cond=True --eval_num_samples=6400 --batch_size=800 --device_id=0 --stochastic_seed=True --save_format=npz --ind_1=36 --ind_2=20 --use_MPI=True --sampler=exact --sampling_steps=1
 
-CUDA_VISIBLE_DEVICES=0 mpiexec -n 1 python ./code/image_sample.py $MODEL_FLAGS --class_cond=True --num_classes=1000 --out_dir ./ctm-sample-paths/ctm_bs_1440_author1_simt/ --model_path=./ckpts/ema_0.999_049000.pt --training_mode=ctm --class_cond=True --eval_num_samples=6400 --batch_size=800 --device_id=0 --stochastic_seed=True --save_format=npz --ind_1=36 --ind_2=20 --use_MPI=True --sampler=exact --sampling_steps=1
+CUDA_VISIBLE_DEVICES=0 mpiexec -n 1 python ./code/image_sample.py $MODEL_FLAGS --class_cond=True --num_classes=1000 --out_dir ./ctm-sample-paths/imagenet_authorckpt_50K/ --model_path=./ckpts/ema_0.999_049000.pt --training_mode=ctm --class_cond=True --eval_num_samples=50000 --batch_size=800 --device_id=0 --stochastic_seed=False --save_format=npz --ind_1=36 --ind_2=20 --use_MPI=True --sampler=exact --sampling_steps=1
 
+CUDA_VISIBLE_DEVICES=0 mpiexec -n 1 python ./code/image_sample.py $MODEL_FLAGS --class_cond=True --num_classes=1000 --out_dir ./ctm-sample-paths/imagenet_authorckpt_50K/ --model_path=./ckpts/ema_0.999_049000.pt --training_mode=ctm --class_cond=True --eval_num_samples=50000 --batch_size=800 --device_id=0 --stochastic_seed=False --save_format=npz --ind_1=36 --ind_2=20 --use_MPI=True --sampler=exact --sampling_steps=2
+
+CUDA_VISIBLE_DEVICES=0 mpiexec -n 1 python ./code/image_sample.py $MODEL_FLAGS --class_cond=True --num_classes=1000 --out_dir ./ctm-sample-paths/imagenet_CTMDSM_condckpt_001000_50K/ --model_path=./ctm-runs/imagenet_CTMDSM_cond/ema_0.999_001000.pt --training_mode=ctm --class_cond=True --eval_num_samples=50000 --batch_size=800 --device_id=0 --stochastic_seed=False --save_format=npz --ind_1=36 --ind_2=20 --use_MPI=True --sampler=exact --sampling_steps=1
+
+CUDA_VISIBLE_DEVICES=0 mpiexec -n 1 python ./code/image_sample.py $MODEL_FLAGS --class_cond=True --num_classes=1000 --out_dir ./ctm-sample-paths/imagenet_CTMDSM_condckpt_001000_50K/ --model_path=./ctm-runs/imagenet_CTMDSM_cond/ema_0.999_001000.pt --training_mode=ctm --class_cond=True --eval_num_samples=50000 --batch_size=800 --device_id=0 --stochastic_seed=False --save_format=npz --ind_1=36 --ind_2=20 --use_MPI=True --sampler=exact --sampling_steps=2
+
+CUDA_VISIBLE_DEVICES=0 mpiexec -n 1 python ./code/image_sample.py $MODEL_FLAGS --class_cond=True --num_classes=1000 --out_dir ./ctm-sample-paths/imagenet_CTMDSM_condckpt_005000_50K/ --model_path=./ctm-runs/imagenet_CTMDSM_cond/ema_0.999_005000.pt --training_mode=ctm --class_cond=True --eval_num_samples=50000 --batch_size=800 --device_id=0 --stochastic_seed=False --save_format=npz --ind_1=36 --ind_2=20 --use_MPI=True --sampler=exact --sampling_steps=1
+
+CUDA_VISIBLE_DEVICES=0 mpiexec -n 1 python ./code/image_sample.py $MODEL_FLAGS --class_cond=True --num_classes=1000 --out_dir ./ctm-sample-paths/imagenet_CTMDSM_condckpt_005000_50K/ --model_path=./ctm-runs/imagenet_CTMDSM_cond/ema_0.999_005000.pt --training_mode=ctm --class_cond=True --eval_num_samples=50000 --batch_size=800 --device_id=0 --stochastic_seed=False --save_format=npz --ind_1=36 --ind_2=20 --use_MPI=True --sampler=exact --sampling_steps=2
+
+CUDA_VISIBLE_DEVICES=0 mpiexec -n 1 python ./code/image_sample.py $MODEL_FLAGS --class_cond=True --num_classes=1000 --out_dir ./ctm-sample-paths/imagenet_CTMDSM_condckpt_007000_50K/ --model_path=./ctm-runs/imagenet_CTMDSM_cond/ema_0.999_007000.pt --training_mode=ctm --class_cond=True --eval_num_samples=50000 --batch_size=800 --device_id=0 --stochastic_seed=False --save_format=npz --ind_1=36 --ind_2=20 --use_MPI=True --sampler=exact --sampling_steps=1
+
+CUDA_VISIBLE_DEVICES=0 mpiexec -n 1 python ./code/image_sample.py $MODEL_FLAGS --class_cond=True --num_classes=1000 --out_dir ./ctm-sample-paths/imagenet_CTMDSM_condckpt_007000_50K/ --model_path=./ctm-runs/imagenet_CTMDSM_cond/ema_0.999_007000.pt --training_mode=ctm --class_cond=True --eval_num_samples=50000 --batch_size=800 --device_id=0 --stochastic_seed=False --save_format=npz --ind_1=36 --ind_2=20 --use_MPI=True --sampler=exact --sampling_steps=2
 
 # * This is an example of sampling command.
 # Here, you could use few commands.
