@@ -305,8 +305,14 @@ class TrainLoop:
             batch_size = self.args.sampling_batch
 
         number = 0
+
+        # Check if the dir to save samples already exists
+        if os.path.exists(bf.join(get_blob_logdir(), f"{sample_dir}")):
+            # Samples have already been generated
+            return
+
         while num_samples > number:
-            print(f"{number} number samples complete")
+            # print(f"{number} number samples complete")
             with th.no_grad():
                 model_kwargs = {}
                 if self.args.class_cond:
@@ -481,7 +487,7 @@ class TrainLoop:
             os.makedirs(os.path.join(image_path, 'single_npz'), exist_ok=True)
             np.savez(os.path.join(os.path.join(image_path, 'single_npz'), f'data'),
                      imgs)  # , labels)
-            logger.log("computing sample batch activations...")
+            logger.log(f"computing sample batch activations from {os.path.join(os.path.join(image_path, 'single_npz'), f'data.npz')}...")
             sample_acts = self.evaluator.read_activations(
                 os.path.join(os.path.join(image_path, 'single_npz'), f'data.npz'))
             logger.log("computing/reading sample batch statistics...")
@@ -797,9 +803,9 @@ class CMTrainLoop(TrainLoop):
                             self.sampling(model=self.ddp_model, sampler='onestep', step=1)
                     if self.step == self.initial_step + 10 and self.teacher_model != None:
                         self.sampling(model=self.teacher_model, sampler='heun', ctm=False, teacher=True)
-            self.run_step(batch, cond)
+            self.run_step(batch, cond) # (256, 3, 64, 64) (256)
 
-            # # DEBUG
+            # # # DEBUG
             # print(f'Right after run_step() on device {dist.get_rank()}')
             # breakpoint()
 
@@ -854,6 +860,9 @@ class CMTrainLoop(TrainLoop):
                 th.cuda.empty_cache()
                 if self.args.gpu_usage:
                     self.print_gpu_usage('After emptying cache in evaluation 2')
+            # breakpoint()
+            # print(f'Right after evaluation on device {dist.get_rank()}')
+            
             dist.barrier()
             if (
                     self.global_step
@@ -899,7 +908,7 @@ class CMTrainLoop(TrainLoop):
                 and self.args.save_interval != -1
                 and self.global_step % self.args.save_interval == 0
             ):
-                self.save()
+                self.save(save_full=True)
                 if self.discriminator != None:
                     self.d_save()
                 saved = True

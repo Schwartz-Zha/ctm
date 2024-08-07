@@ -127,7 +127,7 @@ def main():
             sigma_spatial = np.cov(sample_acts[1][:num_samples], rowvar=False)
             sample_stats_spatial = FIDStatistics(mu_spatial, sigma_spatial)
     else:
-        print("computing sample batch activations...")
+        print(f"computing sample batch activations from {os.path.join(sample_dir, sample_name)}...")
         sample_acts = evaluator.read_activations(os.path.join(sample_dir, sample_name))
         print("computing/reading sample batch statistics...")
         #sample_stats, sample_stats_spatial = evaluator.read_statistics(os.path.join(sample_dir, sample_name), sample_acts)
@@ -248,8 +248,7 @@ class Evaluator:
             #for batch in tqdm(batches):
             batch = batches[k * self.batch_size:min((k+1) * self.batch_size, 50000)]
             batch = batch.astype(np.float32)
-            print(batch.shape)
-            pred, spatial_pred = self.sess.run(
+            pred, spatial_pred = self.sess.run(  # (100, 1, 1, 2048), (100, 17, 17, 7)
                 [self.pool_features, self.spatial_features], {self.image_input: batch}
             )
             preds.append(pred.reshape([pred.shape[0], -1]))

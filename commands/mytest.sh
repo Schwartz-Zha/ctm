@@ -11,6 +11,24 @@ CUDA_VISIBLE_DEVICES=0 python code/evaluations/evaluator.py \
     ref-statistics/VIRTUAL_imagenet64_labeled.npz \
     ctm-sample-paths/ctm_bs_1440_author/ctm_exact_sampler_1_steps_049000_itrs_0.999_ema_/
 
+CUDA_VISIBLE_DEVICES=0 python code/evaluations/evaluator.py \
+    ref-statistics/VIRTUAL_imagenet64_labeled.npz \
+    ctm-sample-paths/imagenet_CTMDSM_fp32_condckpt_001000_50K/ctm_exact_sampler_1_steps_001000_itrs_0.999_ema_/
+# Inception Score: 4.3384881019592285
+# FID: 172.49941597736
+# sFID: 142.83929578275433
+# Precision: 0.21612
+# Recall: 0.0337
+
+CUDA_VISIBLE_DEVICES=0 python code/evaluations/evaluator.py \
+    ref-statistics/VIRTUAL_imagenet64_labeled.npz \
+    ctm-sample-paths/imagenet_CTMDSM_fp32_condckpt_001000_50K/ctm_exact_sampler_2_steps_001000_itrs_0.999_ema_/
+# Inception Score: 22.36349105834961
+# FID: 33.374413507506006
+# sFID: 35.22134646100608
+# Precision: 0.48696
+# Recall: 0.444
+
 
 CUDA_VISIBLE_DEVICES=0 python code/evaluations/evaluator.py \
     ref-statistics/VIRTUAL_imagenet64_labeled.npz \
@@ -38,7 +56,7 @@ CUDA_VISIBLE_DEVICES=0 python code/evaluations/evaluator.py \
 # Recall: 0.0
 CUDA_VISIBLE_DEVICES=0 python code/evaluations/evaluator.py \
     ref-statistics/VIRTUAL_imagenet64_labeled.npz \
-    ctm-sample-paths/imagenet_CTMDSM_condckpt_001000_50K/ctm_exact_sampler_2_steps_001000_itrs_0.999_ema_
+    ctm-sample-paths/imagenet_CTMDSMGAN_condckpt_001000_50K/ctm_exact_sampler_2_steps_001000_itrs_0.999_ema_
 # Inception Score: 1.0731167793273926
 # FID: 437.90950938942626
 # sFID: 177.10879391901278
@@ -46,7 +64,7 @@ CUDA_VISIBLE_DEVICES=0 python code/evaluations/evaluator.py \
 # Recall: 0.0
 CUDA_VISIBLE_DEVICES=0 python code/evaluations/evaluator.py \
     ref-statistics/VIRTUAL_imagenet64_labeled.npz \
-    ctm-sample-paths/imagenet_CTMDSM_condckpt_005000_50K/ctm_exact_sampler_1_steps_005000_itrs_0.999_ema_
+    ctm-sample-paths/imagenet_CTMDSMGAN_condckpt_005000_50K/ctm_exact_sampler_1_steps_005000_itrs_0.999_ema_
 # Inception Score: 1.0817410945892334
 # FID: 409.4246387945607
 # sFID: 246.20075454233927

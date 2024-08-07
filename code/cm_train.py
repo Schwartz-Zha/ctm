@@ -28,7 +28,7 @@ import torch as th
 def main():
     args = create_argparser().parse_args()
 
-    # DEBUG
+    # # DEBUG
     # breakpoint()
 
 
@@ -64,8 +64,8 @@ def main():
 
     # DEBUG
     # breakpoint()
-    # # print(min(next(data)[0]))
-    # # print(max(next(data)[0]))
+    # print(min(next(data)[0]))
+    # print(max(next(data)[0]))
     # breakpoint()
 
     logger.log("creating model and diffusion...")
@@ -79,6 +79,8 @@ def main():
         distill_steps_per_iter=args.distill_steps_per_iter,
     )
 
+    # breakpoint()
+
     # Load Feature Extractor
     feature_extractor = enc_dec_lib.load_feature_extractor(args, eval=True)
     # Load Discriminator
@@ -89,6 +91,8 @@ def main():
     model.train()
     if args.use_fp16:
         model.convert_to_fp16()
+    
+    # breakpoint()
 
     if len(args.teacher_model_path) > 0 and not args.self_learn:  # path to the teacher score model.
         logger.log(f"loading the teacher model from {args.teacher_model_path}")
@@ -185,8 +189,8 @@ def main():
     ).run_loop()
 
 def create_argparser():
-    defaults = dict(data_name='cifar10')
-    # defaults = dict(data_name='imagenet64')
+    # defaults = dict(data_name='cifar10')
+    defaults = dict(data_name='imagenet64')
     defaults.update(train_defaults(defaults['data_name']))
     defaults.update(model_and_diffusion_defaults(defaults['data_name']))
     defaults.update(cm_train_defaults(defaults['data_name']))
